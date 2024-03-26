@@ -1,1 +1,3 @@
 en:
+  site_settings:
+    discourse_group_category_banner_ads_enabled: "Enable the Group Category Banner Ads plugin"

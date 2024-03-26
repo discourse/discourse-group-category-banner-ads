@@ -1,4 +1,4 @@
-TODO_plugin_name:
-  plugin_name_enabled:
+discourse_group_category_banner_ads:
+  discourse_group_category_banner_ads_enabled:
     default: false
     client: true
