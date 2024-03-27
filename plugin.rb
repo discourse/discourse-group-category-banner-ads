@@ -34,5 +34,8 @@ after_initialize do
     post "/admin/plugins/group_category_banner_ads" =>
       "discourse_group_category_banner_ads/admin_group_category_banner_ads#create",
       :constraints => StaffConstraint.new
+    put "/admin/plugins/group_category_banner_ads/:id" =>
+      "discourse_group_category_banner_ads/admin_group_category_banner_ads#update",
+      :constraints => StaffConstraint.new
   end
 end

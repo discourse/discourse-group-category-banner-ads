@@ -6,30 +6,37 @@ import { tracked } from "@glimmer/tracking";
 import { inject as service } from "@ember/service";
 import { TrackedObject } from "@ember-compat/tracked-built-ins";
 import { extractError } from "discourse/lib/ajax-error";
+import EmberObject from "@ember/object";
 
 export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   @service toasts;
 
   @tracked editing = false;
   @tracked creating = false;
-  bannerAd = new TrackedObject();
+  @tracked selectedCategories = [];
+  @tracked bannerAd = new TrackedObject({});
 
   @action
   setEditing(bannerAd) {
-    this.editing = !this.editing;
-    if (bannerAd) {
-      this.bannerAd = new TrackedObject(bannerAd);
-    }
+    this.editing = true;
+    this.bannerAd = new TrackedObject(bannerAd);
   }
 
   @action
   setCreating() {
-    this.creating = !this.creating;
-    this.bannerAd = new TrackedObject();
+    this.creating = true;
+    this.bannerAd = new TrackedObject({});
+  }
+
+  @action
+  reset() {
+    this.editing = false;
+    this.creating = false;
   }
 
   @action
   saveBannerAd() {
+    console.log(this.bannerAd?.id);
     if (this.bannerAd?.id) {
       this.updateBannerAd(this.bannerAd);
     } else {
@@ -38,44 +45,69 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   }
 
   @action
+  setCategoryIds(categoryArray) {
+    this.selectedCategories = categoryArray;
+
+    if (!this.bannerAd.category_ids) {
+      this.bannerAd.category_ids = [];
+    }
+    this.bannerAd.category_ids = new TrackedObject(
+      categoryArray.map((c) => c.id)
+    );
+  }
+
+  @action
+  setBannerTitle(e) {
+    this.bannerAd.title = e.target.value;
+  }
+
+  @action
   setCtaText(e) {
-    this.bannerAd.ctaText = e.target.value;
+    this.bannerAd.cta_text = e.target.value;
   }
 
   @action
   setCtaUrl(e) {
-    this.bannerAd.ctaUrl = e.target.value;
+    this.bannerAd.cta_url = e.target.value;
   }
 
   @action
   setBannerText(e) {
-    this.bannerAd.bannerText = e.target.value;
+    this.bannerAd.banner_text = e.target.value;
   }
 
   @action
   setEnabled(e) {
-    this.bannerAd.enabled = e.target.value;
+    this.bannerAd.enabled = e.target.checked;
   }
 
   @action
   async createBannerAd() {
     try {
-      await ajax("/admin/plugins/group_category_banner_ads.json", {
-        data: {
-          banner_text: this.bannerAd.bannerText,
-          category_ids: this.bannerAd.categoryIds,
-          group_ids: this.bannerAd.groupIds,
-          cta_url: this.bannerAd.ctaUrl,
-          cta_text: this.bannerAd.ctaText,
-          enabled: this.bannerAd.enabled,
-        },
-        type: "POST",
-      });
+      const data = {
+        title: this.bannerAd.title,
+        banner_text: this.bannerAd.banner_text,
+        category_ids: this.bannerAd.category_ids?.map((c) => c),
+        group_ids: this.bannerAd.group_ids,
+        cta_url: this.bannerAd.cta_url,
+        cta_text: this.bannerAd.cta_text,
+        enabled: this.bannerAd.enabled || false,
+      };
+      const response = await ajax(
+        "/admin/plugins/group_category_banner_ads.json",
+        {
+          data,
+          type: "POST",
+        }
+      );
       this.toasts.success({
         duration: 3000,
         data: { message: "Banner ad created successfully!" },
       });
-      this.setCreating();
+      this.model.banner_ads.unshiftObject(
+        EmberObject.create(response.banner_ad)
+      );
+      this.reset();
     } catch (error) {
       this.toasts.error({
         duration: 3000,
@@ -85,12 +117,22 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   }
 
   @action
-  async updateBannerAd() {
+  async updateBannerAd(bannerAd) {
+    const data = {
+      id: bannerAd.id,
+      title: bannerAd.title,
+      banner_text: bannerAd.banner_text,
+      category_ids: bannerAd.category_ids?.map((c) => c),
+      group_ids: bannerAd.group_ids,
+      cta_url: bannerAd.cta_url,
+      cta_text: bannerAd.cta_text,
+      enabled: bannerAd.enabled,
+    };
     try {
       await ajax(
-        `/admin/plugins/group_category_banner_ads/${this.bannerAd.id}.json`,
+        `/admin/plugins/group_category_banner_ads/${bannerAd.id}.json`,
         {
-          data: { banner_ad: this.bannerAd },
+          data,
           type: "PUT",
         }
       );
@@ -98,7 +140,16 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
         duration: 3000,
         data: { message: "Banner ad updated successfully!" },
       });
-      this.setEditing();
+      this.set(
+        "model.banner_ads",
+        this.model.banner_ads.map((b) => {
+          if (b.id === bannerAd.id) {
+            return EmberObject.create(data);
+          }
+          return b;
+        })
+      );
+      this.reset();
     } catch (error) {
       this.toasts.error({
         duration: 3000,
@@ -107,19 +158,6 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
     }
   }
 
-  // @action
-  // async setCategoryIdsForAd(id, categoryIds) {
-  //   try {
-  //     await ajax(
-  //       `/admin/plugins/group_category_banner_ads/:id/set_category_ids_for_ad.json`,
-  //       {
-  //         data: { category_ids: categoryIds },
-  //         type: "POST",
-  //       }
-  //     );
-  //     banner_ad.set("category_ids", categoryIds.join("|"));
-  //   } catch (error) {
-  //     popupAjaxError(error);
-  //   }
-  // }
+  @action
+  deleteBannerAd(bannerAd) {}
 }

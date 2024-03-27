@@ -11,6 +11,9 @@ en:
         new_banner_ad: "New Banner Ad"
         cancel_new_banner_ad: "Cancel"
         save_new_banner_ad: "Save"
+      title:
+        label: "Title"
+        placeholder: "Enter the title of the ad"
       cta_url:
         label: "Call to Action URL"
         description: "The destination URL when the user clicks the CTA button"

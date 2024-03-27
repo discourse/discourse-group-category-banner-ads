@@ -7,37 +7,50 @@
     display: flex;
     flex-direction: column;
     width: 50%;
+    margin-bottom: 1em;
 
     .banner-ad-label {
       font-size: var(--font-0);
-      .banner-ad-description {
-        color: var(--primary-low-mid);
-        font-size: var(--font-down-1);
-      }
     }
 
-    input,
+    .banner-ad-description {
+      color: var(--primary-low-mid);
+      font-size: var(--font-down-1);
+      display: flex;
+    }
+
+    input:not([type="checkbox"]),
     textarea {
       width: calc(100% - 1em);
       margin-right: 0.3em;
+      margin-bottom: 0;
+    }
+
+    input[type="checkbox"] {
+      margin: 0 0.3em 0 0;
+    }
+
+    .banner-ad-value {
+      .category-selector {
+        width: calc(100% - 1em);
+        margin-right: 0.3em;
+      }
     }
   }
 }
 
 .index-banner-ads-container {
-  display: flex;
-  flex-wrap: wrap;
-  .index-banner-ad {
-    width: 50%;
-    padding: 0.8em;
-    border: 3px solid var(--primary-low-mid);
+  overflow-x: auto;
+  overflow-y: hidden;
 
-    .banner-ad-label {
-      font-weight: bold;
-    }
+  .banner-ads-table-actions {
+    display: flex;
+  }
 
-    .banner-ad-value {
-      color: var(--primary-low-mid);
-    }
+  .banner-ad-table-url {
+    max-width: 25em;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 }

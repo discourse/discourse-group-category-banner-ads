@@ -1,5 +1,23 @@
 <div class="new-banner-ad">
-  {{#if this.creating}}
+  {{#if (or this.creating this.editing)}}
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.title.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <input
+          type="text"
+          {{on "change" this.setBannerTitle}}
+          value={{this.bannerAd.title}}
+          placeholder={{i18n
+            "discourse_group_category_banner_ads.title.placeholder"
+          }}
+        />
+      </span>
+    </div>
+
+    <br />
+
     <div class="banner-field">
       <span class="banner-ad-label">
         {{i18n "discourse_group_category_banner_ads.banner_text.label"}}
@@ -11,6 +29,7 @@
           placeholder={{i18n
             "discourse_group_category_banner_ads.banner_text.description"
           }}
+          value={{this.bannerAd.banner_text}}
         />
       </span>
     </div>
@@ -26,6 +45,7 @@
           placeholder={{i18n
             "discourse_group_category_banner_ads.cta_url.description"
           }}
+          value={{this.bannerAd.cta_url}}
         />
       </span>
     </div>
@@ -41,6 +61,7 @@
           placeholder={{i18n
             "discourse_group_category_banner_ads.cta_text.description"
           }}
+          value={{this.bannerAd.cta_text}}
         />
       </span>
     </div>
@@ -48,14 +69,21 @@
     <div class="banner-field">
       <span class="banner-ad-label">
         {{i18n "discourse_group_category_banner_ads.category_ids.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <BannerAdCategorySelector
+          @categories={{this.model.categories}}
+          @selectedCategories={{or
+            this.bannerAd.categories
+            this.selectedCategories
+          }}
+          @onChange={{this.setCategoryIds}}
+        />
         <div class="banner-ad-description">
           {{i18n
             "discourse_group_category_banner_ads.category_ids.description"
           }}
         </div>
-      </span>
-      <span class="banner-ad-value">
-        {{!-- {{bannerAd.category_ids}} --}}
       </span>
     </div>
 
@@ -67,29 +95,36 @@
         </div>
       </span>
       <span class="banner-ad-value">
-        {{!-- <input {{on "change" this.setCtaText}} /> --}}
+        {{!-- <GroupChooser
+          @content={{this.model.groups}}
+          @onChange={{fn (mut this.customGroupIdsBuffer)}}
+        /> --}}
       </span>
     </div>
 
     <div class="banner-field">
       <span class="banner-ad-label">
         {{i18n "discourse_group_category_banner_ads.enabled.label"}}
-        <div class="banner-ad-description">
-          {{i18n "discourse_group_category_banner_ads.enabled.description"}}
-        </div>
       </span>
       <span class="banner-ad-value">
-        <input type="checkbox" {{on "change" this.setEnabled}} />
+        <div class="banner-ad-description">
+          <input
+            type="checkbox"
+            {{on "change" this.setEnabled}}
+            checked={{this.bannerAd.enabled}}
+          />
+          {{i18n "discourse_group_category_banner_ads.enabled.description"}}
+        </div>
       </span>
     </div>
 
     <div>
       <DButton
-        @action={{this.saveBannerAd}}
+        @action={{fn this.saveBannerAd this.bannerAd}}
         @label="discourse_group_category_banner_ads.admin.save_new_banner_ad"
       />
       <DButton
-        @action={{this.setCreating}}
+        @action={{this.reset}}
         @label="discourse_group_category_banner_ads.admin.cancel_new_banner_ad"
       />
     </div>
@@ -102,65 +137,55 @@
 </div>
 
 <div class="index-banner-ads-container">
-  {{#each this.model.banner_ads as |bannerAd|}}
-    <div class="index-banner-ad">
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.banner_text.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{bannerAd.banner_text}}
-        </span>
-      </div>
-
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.cta_url.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{bannerAd.cta_url}}
-        </span>
-      </div>
-
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.cta_text.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{bannerAd.cta_text}}
-        </span>
-      </div>
-
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.category_ids.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{bannerAd.category_ids}}
-        </span>
-      </div>
-
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.group_ids.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{bannerAd.group_ids}}
-        </span>
-      </div>
-
-      <div class="banner-field">
-        <span class="banner-ad-label">
-          {{i18n "discourse_group_category_banner_ads.enabled.label"}}:
-        </span>
-        <span class="banner-ad-value">
-          {{#if bannerAd.enabled}}
-            {{d-icon "check"}}
-          {{else}}
-            {{d-icon "times"}}
-          {{/if}}
-        </span>
-      </div>
-    </div>
-  {{/each}}
+  <table>
+    <thead>
+      <tr>
+        <th>
+          {{i18n "discourse_group_category_banner_ads.title.label"}}
+        </th>
+        <th>
+          {{i18n "discourse_group_category_banner_ads.cta_url.label"}}
+        </th>
+        <th>
+          {{i18n "discourse_group_category_banner_ads.category_ids.label"}}
+        </th>
+        <th>
+          {{i18n "discourse_group_category_banner_ads.group_ids.label"}}
+        </th>
+        <th>
+          {{i18n "discourse_group_category_banner_ads.enabled.label"}}
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.model.banner_ads as |bannerAd|}}
+        <tr>
+          <td>{{bannerAd.title}}</td>
+          <td><span class="banner-ad-table-url">{{bannerAd.cta_url}}</span></td>
+          <td>{{bannerAd.category_ids}}</td>
+          <td>{{bannerAd.group_ids}}</td>
+          <td>
+            {{#if bannerAd.enabled}}
+              {{d-icon "check"}}
+            {{else}}
+              {{d-icon "times"}}
+            {{/if}}
+          </td>
+          <td>
+            <div class="banner-ads-table-actions">
+              <DButton
+                @action={{fn this.setEditing bannerAd}}
+                @icon="pencil-alt"
+              />
+              <DButton
+                @action={{fn this.deleteBannerAd bannerAd}}
+                @icon="trash-alt"
+              />
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
