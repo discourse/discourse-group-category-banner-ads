@@ -21,6 +21,13 @@ class DiscourseGroupCategoryBannerAds::AdminGroupCategoryBannerAdsController < A
     render json: banner_ad
   end
 
+  def destroy
+    params.require(:id)
+    banner_ad = BannerAd.find(params[:id])
+    banner_ad.destroy!
+    render json: success_json
+  end
+
   private
 
   def banner_ad_params

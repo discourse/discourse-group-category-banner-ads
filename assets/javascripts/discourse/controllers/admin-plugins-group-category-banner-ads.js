@@ -159,5 +159,28 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   }
 
   @action
-  deleteBannerAd(bannerAd) {}
+  async deleteBannerAd(bannerAd) {
+    try {
+      await ajax(
+        `/admin/plugins/group_category_banner_ads/${bannerAd.id}.json`,
+        {
+          type: "POST",
+        }
+      );
+      this.toasts.success({
+        duration: 3000,
+        data: { message: "Banner ad deleted successfully!" },
+      });
+      this.set(
+        "model.banner_ads",
+        this.model.banner_ads.filter((b) => b.id !== bannerAd.id)
+      );
+      this.reset();
+    } catch (error) {
+      this.toasts.error({
+        duration: 3000,
+        data: { message: extractError(error) },
+      });
+    }
+  }
 }
