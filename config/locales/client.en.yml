@@ -8,10 +8,12 @@ en:
     discourse_group_category_banner_ads:
       admin:
         title: "Group Category Banner Ads"
-      is_category_banner_ad: "Use as Category Banner Ad"
+        new_banner_ad: "New Banner Ad"
+        cancel_new_banner_ad: "Cancel"
+        save_new_banner_ad: "Save"
       cta_url:
         label: "Call to Action URL"
-        description: "The URL that the user will be taken to when they click CTA button on the banner"
+        description: "The destination URL when the user clicks the CTA button"
       cta_text:
         label: "Call to Action Text"
         description: "The text that will be displayed on the CTA button"

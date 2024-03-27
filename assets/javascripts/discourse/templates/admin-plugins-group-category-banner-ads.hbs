@@ -1,2 +1,166 @@
-<h1>Banner Ads</h1>
-{{log this.model}}
+<div class="new-banner-ad">
+  {{#if this.creating}}
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.banner_text.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <textarea
+          type="text"
+          {{on "change" this.setBannerText}}
+          placeholder={{i18n
+            "discourse_group_category_banner_ads.banner_text.description"
+          }}
+        />
+      </span>
+    </div>
+
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.cta_url.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <input
+          type="text"
+          {{on "change" this.setCtaUrl}}
+          placeholder={{i18n
+            "discourse_group_category_banner_ads.cta_url.description"
+          }}
+        />
+      </span>
+    </div>
+
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.cta_text.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <input
+          type="text"
+          {{on "change" this.setCtaText}}
+          placeholder={{i18n
+            "discourse_group_category_banner_ads.cta_text.description"
+          }}
+        />
+      </span>
+    </div>
+
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.category_ids.label"}}
+        <div class="banner-ad-description">
+          {{i18n
+            "discourse_group_category_banner_ads.category_ids.description"
+          }}
+        </div>
+      </span>
+      <span class="banner-ad-value">
+        {{!-- {{bannerAd.category_ids}} --}}
+      </span>
+    </div>
+
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.group_ids.label"}}
+        <div class="banner-ad-description">
+          {{i18n "discourse_group_category_banner_ads.group_ids.description"}}
+        </div>
+      </span>
+      <span class="banner-ad-value">
+        {{!-- <input {{on "change" this.setCtaText}} /> --}}
+      </span>
+    </div>
+
+    <div class="banner-field">
+      <span class="banner-ad-label">
+        {{i18n "discourse_group_category_banner_ads.enabled.label"}}
+        <div class="banner-ad-description">
+          {{i18n "discourse_group_category_banner_ads.enabled.description"}}
+        </div>
+      </span>
+      <span class="banner-ad-value">
+        <input type="checkbox" {{on "change" this.setEnabled}} />
+      </span>
+    </div>
+
+    <div>
+      <DButton
+        @action={{this.saveBannerAd}}
+        @label="discourse_group_category_banner_ads.admin.save_new_banner_ad"
+      />
+      <DButton
+        @action={{this.setCreating}}
+        @label="discourse_group_category_banner_ads.admin.cancel_new_banner_ad"
+      />
+    </div>
+  {{else}}
+    <DButton
+      @action={{this.setCreating}}
+      @label="discourse_group_category_banner_ads.admin.new_banner_ad"
+    />
+  {{/if}}
+</div>
+
+<div class="index-banner-ads-container">
+  {{#each this.model.banner_ads as |bannerAd|}}
+    <div class="index-banner-ad">
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.banner_text.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{bannerAd.banner_text}}
+        </span>
+      </div>
+
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.cta_url.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{bannerAd.cta_url}}
+        </span>
+      </div>
+
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.cta_text.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{bannerAd.cta_text}}
+        </span>
+      </div>
+
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.category_ids.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{bannerAd.category_ids}}
+        </span>
+      </div>
+
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.group_ids.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{bannerAd.group_ids}}
+        </span>
+      </div>
+
+      <div class="banner-field">
+        <span class="banner-ad-label">
+          {{i18n "discourse_group_category_banner_ads.enabled.label"}}:
+        </span>
+        <span class="banner-ad-value">
+          {{#if bannerAd.enabled}}
+            {{d-icon "check"}}
+          {{else}}
+            {{d-icon "times"}}
+          {{/if}}
+        </span>
+      </div>
+    </div>
+  {{/each}}
+</div>
