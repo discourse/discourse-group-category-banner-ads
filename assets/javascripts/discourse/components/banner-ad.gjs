@@ -1,6 +1,6 @@
-import concatClass from "discourse/helpers/concat-class";
 import { dasherize } from "@ember/string";
 import { htmlSafe } from "@ember/template";
+import concatClass from "discourse/helpers/concat-class";
 
 const BannerAd = <template>
   <div

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer < DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer 
+class DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer < DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer
   has_many :categories, serializer: BasicCategorySerializer, embed: :objects
 
   def categories
