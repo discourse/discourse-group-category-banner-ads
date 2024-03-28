@@ -73,11 +73,9 @@
       <span class="banner-ad-value">
         <BannerAdCategorySelector
           @categories={{this.model.categories}}
-          @selectedCategories={{or
-            this.bannerAd.categories
-            this.selectedCategories
-          }}
+          @selectedCategories={{this.selectedCategories}}
           @onChange={{this.setCategoryIds}}
+          @options={{hash allowAny=true}}
         />
         <div class="banner-ad-description">
           {{i18n
@@ -90,15 +88,16 @@
     <div class="banner-field">
       <span class="banner-ad-label">
         {{i18n "discourse_group_category_banner_ads.group_ids.label"}}
+      </span>
+      <span class="banner-ad-value">
+        <GroupChooser
+          @content={{this.model.groups}}
+          @onChange={{this.setGroupIds}}
+          @value={{this.selectedGroups}}
+        />
         <div class="banner-ad-description">
           {{i18n "discourse_group_category_banner_ads.group_ids.description"}}
         </div>
-      </span>
-      <span class="banner-ad-value">
-        {{!-- <GroupChooser
-          @content={{this.model.groups}}
-          @onChange={{fn (mut this.customGroupIdsBuffer)}}
-        /> --}}
       </span>
     </div>
 

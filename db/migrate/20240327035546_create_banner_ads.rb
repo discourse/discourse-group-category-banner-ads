@@ -7,8 +7,8 @@ class CreateBannerAds < ActiveRecord::Migration[7.0]
       t.string :cta_url, null: true, default: nil, limit: 2048
       t.string :cta_text, null: true, default: ""
       t.string :banner_text, null: false, default: ""
-      t.integer :category_ids, array: true, null: false, default: []
-      t.integer :group_ids, array: true, null: false, default: []
+      t.integer :category_ids, array: true, null: true, default: []
+      t.integer :group_ids, array: true, null: true, default: []
       t.boolean :enabled, null: false, default: false
 
       t.timestamps

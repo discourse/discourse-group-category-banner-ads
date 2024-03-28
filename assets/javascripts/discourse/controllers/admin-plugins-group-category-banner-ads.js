@@ -4,7 +4,7 @@ import { ajax } from "discourse/lib/ajax";
 import { popupAjaxError } from "discourse/lib/ajax-error";
 import { tracked } from "@glimmer/tracking";
 import { inject as service } from "@ember/service";
-import { TrackedObject } from "@ember-compat/tracked-built-ins";
+import { TrackedArray, TrackedObject } from "@ember-compat/tracked-built-ins";
 import { extractError } from "discourse/lib/ajax-error";
 import EmberObject from "@ember/object";
 
@@ -13,19 +13,24 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
 
   @tracked editing = false;
   @tracked creating = false;
-  @tracked selectedCategories = [];
+  @tracked selectedCategories = this.bannerAd.categories || [];
+  @tracked selectedGroups = this.bannerAd.group_ids || [];
   @tracked bannerAd = new TrackedObject({});
 
   @action
   setEditing(bannerAd) {
     this.editing = true;
     this.bannerAd = new TrackedObject(bannerAd);
+
+    this.resetGroupsAndCategories();
   }
 
   @action
   setCreating() {
     this.creating = true;
     this.bannerAd = new TrackedObject({});
+
+    this.resetGroupsAndCategories();
   }
 
   @action
@@ -36,11 +41,12 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
 
   @action
   saveBannerAd() {
-    console.log(this.bannerAd?.id);
-    if (this.bannerAd?.id) {
-      this.updateBannerAd(this.bannerAd);
-    } else {
-      this.createBannerAd(this.bannerAd);
+    if (this.validateInputs()) {
+      if (this.bannerAd?.id) {
+        this.updateBannerAd(this.bannerAd);
+      } else {
+        this.createBannerAd(this.bannerAd);
+      }
     }
   }
 
@@ -48,12 +54,15 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   setCategoryIds(categoryArray) {
     this.selectedCategories = categoryArray;
 
-    if (!this.bannerAd.category_ids) {
-      this.bannerAd.category_ids = [];
-    }
-    this.bannerAd.category_ids = new TrackedObject(
+    this.bannerAd.category_ids = new TrackedArray(
       categoryArray.map((c) => c.id)
     );
+  }
+
+  @action
+  setGroupIds(groupIds) {
+    this.selectedGroups = groupIds;
+    this.bannerAd.group_ids = groupIds;
   }
 
   @action
@@ -104,9 +113,7 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
         duration: 3000,
         data: { message: "Banner ad created successfully!" },
       });
-      this.model.banner_ads.unshiftObject(
-        EmberObject.create(response.banner_ad)
-      );
+      this.model.banner_ads.unshiftObject(EmberObject.create(response));
       this.reset();
     } catch (error) {
       this.toasts.error({
@@ -129,7 +136,7 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
       enabled: bannerAd.enabled,
     };
     try {
-      await ajax(
+      const response = await ajax(
         `/admin/plugins/group_category_banner_ads/${bannerAd.id}.json`,
         {
           data,
@@ -144,7 +151,7 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
         "model.banner_ads",
         this.model.banner_ads.map((b) => {
           if (b.id === bannerAd.id) {
-            return EmberObject.create(data);
+            return EmberObject.create(response);
           }
           return b;
         })
@@ -182,5 +189,31 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
         data: { message: extractError(error) },
       });
     }
+  }
+
+  validateInputs() {
+    if (!this.bannerAd.title) {
+      this.toasts.error({
+        duration: 3000,
+        data: { message: "Title is required!" },
+      });
+      return false;
+    }
+
+    if (!this.bannerAd.banner_text) {
+      this.toasts.error({
+        duration: 3000,
+        data: { message: "Banner text is required!" },
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  resetGroupsAndCategories() {
+    // we need to reset the values in case they were changed during an edit then cancelled
+    this.selectedCategories = this.bannerAd.categories || [];
+    this.selectedGroups = this.bannerAd.group_ids || [];
   }
 }
