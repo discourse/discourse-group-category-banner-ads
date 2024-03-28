@@ -3,7 +3,8 @@ import Controller from "@ember/controller";
 import EmberObject, { action } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { TrackedArray, TrackedObject } from "@ember-compat/tracked-built-ins";
-import { ajax, extractError } from "discourse/lib/ajax-error";
+import { ajax } from "discourse/lib/ajax";
+import { extractError } from "discourse/lib/ajax-error";
 
 export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   @service toasts;
