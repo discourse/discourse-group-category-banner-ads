@@ -16,10 +16,10 @@ en:
         placeholder: "Enter the title of the ad"
       cta_url:
         label: "Call to Action URL"
-        description: "The destination URL when the user clicks the CTA button"
+        description: "https://www.example.com"
       cta_text:
         label: "Call to Action Text"
-        description: "The text that will be displayed on the CTA button"
+        description: "CTA button text"
       banner_text:
         label: "Banner Text"
         description: "The text that will be displayed on the banner"

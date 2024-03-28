@@ -44,9 +44,9 @@ after_initialize do
   end
 
   reloadable_patch do
-    add_to_serializer(:basic_category, :banner_ads_foo) do
-      ads_with_id = DiscourseGroupCategoryBannerAds::BannerAd.where("category_ids @> ARRAY[?]", object.id)
-      ActiveModel::ArraySerializer.new(ads_with_id, each_serializer: DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer, root: "banner_ads").as_json
+    add_to_serializer(:basic_category, :banner_ads) do
+      ads_with_id = DiscourseGroupCategoryBannerAds::BannerAd.where(enabled: true).where("category_ids @> ARRAY[?]", object.id)
+      ActiveModel::ArraySerializer.new(ads_with_id, each_serializer: DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer, root: false).as_json
     end
   end
 end

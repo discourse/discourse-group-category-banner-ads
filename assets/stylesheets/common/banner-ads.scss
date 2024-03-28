@@ -54,3 +54,21 @@
     overflow: hidden;
   }
 }
+
+.group-category-banner-ad {
+  border: 2px solid var(--primary-low-mid);
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+
+  .group-category-banner-ad-text {
+    margin-right: 1em;
+  }
+
+  .group-category-banner-ad-cta-text {
+    width: max-content;
+    font-size: var(--font-down-1);
+  }
+}
