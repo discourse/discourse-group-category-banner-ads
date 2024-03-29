@@ -22,7 +22,7 @@ RSpec.describe "Admin - Discourse Group Category Banner Ads", type: :system, js:
     visit "/admin/plugins/group_category_banner_ads"
   end
 
-  context "admin page" do
+  context "when visiting admin page" do
     it "displays a button to add a new banner ad" do
       expect(admin_banner_ad_page).to have_css(admin_banner_ad_page.new_banner_btn)
     end

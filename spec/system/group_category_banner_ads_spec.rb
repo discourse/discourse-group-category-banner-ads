@@ -12,7 +12,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
 
   before { SiteSetting.discourse_group_category_banner_ads_enabled = true }
 
-  context "enabled ad" do
+  context "when ad enabled" do
     before do
       DiscourseGroupCategoryBannerAds::BannerAd.create!(
         title: title,
@@ -25,7 +25,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
       )
     end
 
-    context "visiting valid category" do
+    context "when visiting valid category" do
       it "displays banner ad to user with group membership" do
         sign_in(user_in_valid_group)
         visit "/c/#{valid_category.id}"
@@ -42,7 +42,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
       end
     end
 
-    context "visiting invalid category" do
+    context "when visiting invalid category" do
       it "does not display banner ad to user with group membership" do
         sign_in(user_in_valid_group)
         visit "/c/#{invalid_category.id}"
@@ -51,7 +51,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
     end
   end
 
-  context "disabled ad" do
+  context "when ad disabled" do
     before do
       DiscourseGroupCategoryBannerAds::BannerAd.create!(
         title: title,
@@ -62,7 +62,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
       )
     end
 
-    context "visiting valid category" do
+    context "when visiting valid category" do
       it "does not display banner ad to user with group membership" do
         sign_in(user_in_valid_group)
         visit "/c/#{valid_category.id}"
