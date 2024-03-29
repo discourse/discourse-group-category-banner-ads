@@ -20,7 +20,7 @@ require_relative "lib/discourse_group_category_banner_ads/engine"
 
 after_initialize do
   %w[
-    ../app/controllers/admin/group_category_banner_ads_controller.rb
+    ../app/controllers/admin/admin_group_category_banner_ads_controller.rb
     ../app/serializers/basic_banner_ad_serializer.rb
     ../app/serializers/detailed_banner_ad_serializer.rb
     ../app/models/banner_ad.rb
