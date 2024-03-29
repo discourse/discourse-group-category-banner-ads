@@ -20,10 +20,10 @@ require_relative "lib/discourse_group_category_banner_ads/engine"
 
 after_initialize do
   %w[
-    ../app/controllers/admin/admin_group_category_banner_ads_controller.rb
-    ../app/serializers/basic_banner_ad_serializer.rb
-    ../app/serializers/detailed_banner_ad_serializer.rb
-    ../app/models/banner_ad.rb
+    ../app/controllers/discourse_group_category_banner_ads/admin/admin_group_category_banner_ads_controller.rb
+    ../app/serializers/discourse_group_category_banner_ads/basic_banner_ad_serializer.rb
+    ../app/serializers/discourse_group_category_banner_ads/detailed_banner_ad_serializer.rb
+    ../app/models/discourse_group_category_banner_ads/banner_ad.rb
   ].each { |path| load File.expand_path(path, __FILE__) }
 
   add_admin_route "discourse_group_category_banner_ads.admin.title", "group_category_banner_ads"
@@ -31,16 +31,16 @@ after_initialize do
   Discourse::Application.routes.prepend do
     mount ::DiscourseGroupCategoryBannerAds::Engine, at: "/group_category_banner_ads"
     get "/admin/plugins/group_category_banner_ads" =>
-          "discourse_group_category_banner_ads/admin_group_category_banner_ads#index",
+          "discourse_group_category_banner_ads/admin/admin_group_category_banner_ads#index",
         :constraints => StaffConstraint.new
     post "/admin/plugins/group_category_banner_ads" =>
-           "discourse_group_category_banner_ads/admin_group_category_banner_ads#create",
+           "discourse_group_category_banner_ads/admin/admin_group_category_banner_ads#create",
          :constraints => StaffConstraint.new
     put "/admin/plugins/group_category_banner_ads/:id" =>
-          "discourse_group_category_banner_ads/admin_group_category_banner_ads#update",
+          "discourse_group_category_banner_ads/admin/admin_group_category_banner_ads#update",
         :constraints => StaffConstraint.new
     post "/admin/plugins/group_category_banner_ads/:id" =>
-           "discourse_group_category_banner_ads/admin_group_category_banner_ads#destroy",
+           "discourse_group_category_banner_ads/admin/admin_group_category_banner_ads#destroy",
          :constraints => StaffConstraint.new
   end
 
