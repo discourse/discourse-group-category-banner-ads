@@ -9,7 +9,10 @@ const BannerAd = <template>
     <span class="group-category-banner-ad-text">
       {{htmlSafe @banner.banner_text}}
     </span>
-    <a href={{@banner.cta_url}} class="btn btn-default">
+    <a
+      href={{@banner.cta_url}}
+      class="btn btn-default group-category-banner-ad-cta-url"
+    >
       <span class="group-category-banner-ad-cta-text">
         {{@banner.cta_text}}
       </span>

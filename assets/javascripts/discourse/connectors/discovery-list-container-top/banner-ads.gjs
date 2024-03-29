@@ -3,8 +3,11 @@ import { inject as service } from "@ember/service";
 import BannerAd from "../../components/banner-ad";
 
 const userHasBannerGroupsMembership = (bannerGroupIds, currentUser) => {
-  return bannerGroupIds.some((g) =>
-    currentUser.groups.map((ug) => ug.id).includes(g)
+  return (
+    !!currentUser &&
+    bannerGroupIds.some((g) =>
+      currentUser.groups.map((ug) => ug.id).includes(g)
+    )
   );
 };
 
