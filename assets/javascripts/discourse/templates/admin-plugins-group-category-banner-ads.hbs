@@ -1,220 +1,25 @@
-<div class="new-banner-ad">
-  {{#if (or this.creating this.editing)}}
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.title.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <input
-          type="text"
-          {{on "change" this.setBannerTitle}}
-          value={{this.bannerAd.title}}
-          placeholder={{i18n
-            "discourse_group_category_banner_ads.title.placeholder"
-          }}
-          class="banner-title"
-        />
-      </span>
-    </div>
+<Admin::BannerForm
+  @creating={{this.creating}}
+  @editing={{this.editing}}
+  @bannerAd={{this.bannerAd}}
+  @setBannerTitle={{this.setBannerTitle}}
+  @setBannerText={{this.setBannerText}}
+  @setCtaUrl={{this.setCtaUrl}}
+  @setCtaText={{this.setCtaText}}
+  @groups={{this.model.groups}}
+  @categories={{this.model.categories}}
+  @selectedCategories={{this.selectedCategories}}
+  @setCategoryIds={{this.setCategoryIds}}
+  @setGroupIds={{this.setGroupIds}}
+  @selectedGroups={{this.selectedGroups}}
+  @saveBannerAd={{this.saveBannerAd}}
+  @reset={{this.reset}}
+  @setCreating={{this.setCreating}}
+  @setEnabled={{this.setEnabled}}
+/>
 
-    <br />
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.banner_text.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <textarea
-          type="text"
-          {{on "change" this.setBannerText}}
-          placeholder={{i18n
-            "discourse_group_category_banner_ads.banner_text.description"
-          }}
-          value={{this.bannerAd.banner_text}}
-          class="banner-text"
-        />
-      </span>
-    </div>
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.cta_url.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <input
-          type="text"
-          {{on "change" this.setCtaUrl}}
-          placeholder={{i18n
-            "discourse_group_category_banner_ads.cta_url.description"
-          }}
-          value={{this.bannerAd.cta_url}}
-          class="banner-cta-url"
-        />
-      </span>
-    </div>
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.cta_text.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <input
-          type="text"
-          {{on "change" this.setCtaText}}
-          placeholder={{i18n
-            "discourse_group_category_banner_ads.cta_text.description"
-          }}
-          value={{this.bannerAd.cta_text}}
-          class="banner-cta-text"
-        />
-      </span>
-    </div>
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.category_ids.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <BannerAdCategorySelector
-          @categories={{this.model.categories}}
-          @selectedCategories={{this.selectedCategories}}
-          @onChange={{this.setCategoryIds}}
-          @options={{hash allowAny=true}}
-          class="banner-categories"
-        />
-        <div class="banner-ad-description">
-          {{i18n
-            "discourse_group_category_banner_ads.category_ids.description"
-          }}
-        </div>
-      </span>
-    </div>
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.group_ids.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <GroupChooser
-          @content={{this.model.groups}}
-          @onChange={{this.setGroupIds}}
-          @value={{this.selectedGroups}}
-          class="banner-groups"
-        />
-        <div class="banner-ad-description">
-          {{i18n "discourse_group_category_banner_ads.group_ids.description"}}
-        </div>
-      </span>
-    </div>
-
-    <div class="banner-field">
-      <span class="banner-ad-label">
-        {{i18n "discourse_group_category_banner_ads.enabled.label"}}
-      </span>
-      <span class="banner-ad-value">
-        <div class="banner-ad-description">
-          <input
-            type="checkbox"
-            {{on "change" this.setEnabled}}
-            checked={{this.bannerAd.enabled}}
-            class="banner-enabled"
-          />
-          {{i18n "discourse_group_category_banner_ads.enabled.description"}}
-        </div>
-      </span>
-    </div>
-
-    <div>
-      <DButton
-        @action={{fn this.saveBannerAd this.bannerAd}}
-        @label="discourse_group_category_banner_ads.admin.save_new_banner_ad"
-        class="save-banner"
-      />
-      <DButton
-        @action={{this.reset}}
-        @label="discourse_group_category_banner_ads.admin.cancel_new_banner_ad"
-        class="reset-banner"
-      />
-    </div>
-  {{else}}
-    <DButton
-      @action={{this.setCreating}}
-      @label="discourse_group_category_banner_ads.admin.new_banner_ad"
-      class="create-banner"
-    />
-  {{/if}}
-</div>
-
-<div class="index-banner-ads-container">
-  <table>
-    <thead>
-      <tr>
-        <th>
-          {{i18n "discourse_group_category_banner_ads.title.label"}}
-        </th>
-        <th>
-          {{i18n "discourse_group_category_banner_ads.cta_url.label"}}
-        </th>
-        <th>
-          {{i18n "discourse_group_category_banner_ads.category_ids.label"}}
-        </th>
-        <th>
-          {{i18n "discourse_group_category_banner_ads.group_ids.label"}}
-        </th>
-        <th>
-          {{i18n "discourse_group_category_banner_ads.enabled.label"}}
-        </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.model.banner_ads as |bannerAd|}}
-        <tr>
-          <td>
-            <span class="banner-ad-table-title">
-              {{bannerAd.title}}
-            </span>
-          </td>
-          <td>
-            <span class="banner-ad-table-cta-url">
-              {{bannerAd.cta_url}}
-            </span>
-          </td>
-          <td>
-            <span class="banner-ad-table-categories">
-              {{bannerAd.category_ids}}
-            </span>
-          </td>
-          <td>
-            <span class="banner-ad-table-groups">
-              {{bannerAd.group_ids}}
-            </span>
-          </td>
-          <td>
-            <span class="banner-ad-table-enabled">
-              {{#if bannerAd.enabled}}
-                {{d-icon "check"}}
-              {{else}}
-                {{d-icon "times"}}
-              {{/if}}
-            </span>
-          </td>
-          <td>
-            <div class="banner-ads-table-actions">
-              <DButton
-                @action={{fn this.setEditing bannerAd}}
-                @icon="pencil-alt"
-                class="edit-banner"
-              />
-              <DButton
-                @action={{fn this.deleteBannerAd bannerAd}}
-                @icon="trash-alt"
-                class="delete-banner"
-              />
-            </div>
-          </td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
+<Admin::BannerTable
+  @bannerAds={{this.model.banner_ads}}
+  @deleteBannerAd={{this.deleteBannerAd}}
+  @setEditing={{this.setEditing}}
+/>
