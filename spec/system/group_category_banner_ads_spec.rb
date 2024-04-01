@@ -15,15 +15,16 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
 
   context "when ad enabled" do
     before do
-      banner_ad = DiscourseGroupCategoryBannerAds::BannerAd.create!(
-        title: title,
-        banner_text: text,
-        cta_url: cta_url,
-        cta_text: cta_text,
-        group_ids: [Group::AUTO_GROUPS[:trust_level_1]],
-        category_ids: [valid_category.id],
-        enabled: true,
-      )
+      banner_ad =
+        DiscourseGroupCategoryBannerAds::BannerAd.create!(
+          title: title,
+          banner_text: text,
+          cta_url: cta_url,
+          cta_text: cta_text,
+          group_ids: [Group::AUTO_GROUPS[:trust_level_1]],
+          category_ids: [valid_category.id],
+          enabled: true,
+        )
     end
 
     context "when visiting valid category" do
@@ -42,7 +43,9 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
         expect(page).to have_css(".group-category-banner-ad")
         expect(page.find(".group-category-banner-ad-text")).to have_text(text)
 
-        DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(banner_text: updated_text)
+        DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(
+          banner_text: updated_text,
+        )
 
         visit "/c/#{valid_category.id}"
         expect(page).to have_css(".group-category-banner-ad")
