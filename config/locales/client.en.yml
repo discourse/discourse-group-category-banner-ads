@@ -3,7 +3,32 @@ en:
     admin:
       site_settings:
         categories:
-          TODO_plugin_name: "Plugin Name"
+          discourse_group_category_banner_ads: "Discourse Group Category Banner Ads"
   js:
-    discourse_plugin_name:
-      placeholder: placeholder
+    discourse_group_category_banner_ads:
+      admin:
+        title: "Group Category Banner Ads"
+        new_banner_ad: "New Banner Ad"
+        cancel_new_banner_ad: "Cancel"
+        save_new_banner_ad: "Save"
+      title:
+        label: "Title"
+        placeholder: "Enter the title of the ad"
+      cta_url:
+        label: "Call to Action URL"
+        description: "https://www.example.com"
+      cta_text:
+        label: "Call to Action Text"
+        description: "CTA button text"
+      banner_text:
+        label: "Banner Text"
+        description: "The text that will be displayed on the banner"
+      category_ids:
+        label: "Categories"
+        description: "The categories where the banner will be displayed"
+      group_ids:
+        label: "Groups"
+        description: "The groups that will be able to see the banner"
+      enabled:
+        label: "Enabled"
+        description: "Enable or disable the banner"

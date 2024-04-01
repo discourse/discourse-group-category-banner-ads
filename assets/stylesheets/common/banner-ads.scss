@@ -1,0 +1,74 @@
+.new-banner-ad {
+  margin: 1em 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .banner-field {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 0.5em;
+
+    .banner-ad-label {
+      font-size: var(--font-0);
+    }
+
+    .banner-ad-description {
+      color: var(--primary-low-mid);
+      font-size: var(--font-down-1);
+      display: flex;
+    }
+
+    input:not([type="checkbox"]),
+    textarea {
+      width: calc(100% - 1em);
+      margin-right: 0.3em;
+      margin-bottom: 0;
+    }
+
+    input[type="checkbox"] {
+      margin: 0 0.3em 0 0;
+    }
+
+    .banner-ad-value {
+      .category-selector {
+        width: calc(100% - 1em);
+        margin-right: 0.3em;
+      }
+    }
+  }
+}
+
+.index-banner-ads-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  .banner-ads-table-actions {
+    display: flex;
+  }
+
+  .banner-ad-table-url {
+    max-width: 25em;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.group-category-banner-ad {
+  border: 2px solid var(--primary-low-mid);
+  padding: 0.5em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+
+  .group-category-banner-ad-text {
+    margin-right: 1em;
+  }
+
+  .group-category-banner-ad-cta-text {
+    width: max-content;
+    font-size: var(--font-down-1);
+  }
+}
