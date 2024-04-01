@@ -24,6 +24,9 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
 
   def create
     banner_ad = DiscourseGroupCategoryBannerAds::BannerAd.create!(banner_ad_params)
+    # we need to clear the cache after create to ensure that we don't render stale data
+    # from the cache
+    Site.clear_cache
     render json:
              DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer.new(
                banner_ad,
@@ -39,6 +42,9 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
     updated_params.merge!(group_ids: []) unless params[:group_ids].present?
     updated_params.merge!(category_ids: []) unless params[:category_ids].present?
     banner_ad.update!(updated_params)
+    # we need to clear the cache after update to ensure that we don't render stale data
+    # from the cache
+    Site.clear_cache
 
     render json:
              DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer.new(

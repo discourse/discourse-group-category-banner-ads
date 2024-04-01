@@ -5,6 +5,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
   fab!(:user_not_in_valid_group) { Fabricate(:user) }
   let(:title) { "New banner title" }
   let(:text) { "New banner text" }
+  let(:updated_text) { "New banner text - Updated" }
   let(:cta_url) { "https://www.google.com/" }
   let(:cta_text) { "Click Me" }
   fab!(:valid_category) { Fabricate(:category) }
@@ -14,7 +15,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
 
   context "when ad enabled" do
     before do
-      DiscourseGroupCategoryBannerAds::BannerAd.create!(
+      banner_ad = DiscourseGroupCategoryBannerAds::BannerAd.create!(
         title: title,
         banner_text: text,
         cta_url: cta_url,
@@ -33,6 +34,19 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
         expect(page.find(".group-category-banner-ad-text")).to have_text(text)
         expect(page.find("a.group-category-banner-ad-cta-url")["href"]).to eq(cta_url)
         expect(page.find(".group-category-banner-ad-cta-text")).to have_text(cta_text)
+      end
+
+      it "updating banner ad updates ad for user" do
+        sign_in(user_in_valid_group)
+        visit "/c/#{valid_category.id}"
+        expect(page).to have_css(".group-category-banner-ad")
+        expect(page.find(".group-category-banner-ad-text")).to have_text(text)
+
+        DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(banner_text: updated_text)
+
+        visit "/c/#{valid_category.id}"
+        expect(page).to have_css(".group-category-banner-ad")
+        expect(page.find(".group-category-banner-ad-text")).to have_text(updated_text)
       end
 
       it "does not display banner ad to user without group membership" do

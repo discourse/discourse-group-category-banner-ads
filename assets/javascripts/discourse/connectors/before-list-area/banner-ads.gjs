@@ -15,17 +15,27 @@ const bannerGroupsIncludesEveryone = (bannerGroupIds) => {
   return !!bannerGroupIds.includes(0);
 };
 
+const bannerCategoriesIncludesCategory = (categoryId, bannerCategoryIds) => {
+  return bannerCategoryIds.includes(categoryId);
+};
+
 export default class BannerAds extends Component {
   @service currentUser;
 
   <template>
-    {{#each @outletArgs.category.banner_ads as |banner|}}
-      {{#if (bannerGroupsIncludesEveryone banner.group_ids)}}
-        <BannerAd @banner={{banner}} />
-      {{else if
-        (userHasBannerGroupsMembership banner.group_ids this.currentUser)
+    {{#each @outletArgs.category.site.banner_ads as |banner|}}
+      {{#if
+        (bannerCategoriesIncludesCategory
+          @outletArgs.category.id banner.category_ids
+        )
       }}
-        <BannerAd @banner={{banner}} />
+        {{#if (bannerGroupsIncludesEveryone banner.group_ids)}}
+          <BannerAd @banner={{banner}} />
+        {{else if
+          (userHasBannerGroupsMembership banner.group_ids this.currentUser)
+        }}
+          <BannerAd @banner={{banner}} />
+        {{/if}}
       {{/if}}
     {{/each}}
   </template>

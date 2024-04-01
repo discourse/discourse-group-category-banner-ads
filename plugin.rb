@@ -44,18 +44,58 @@ after_initialize do
          :constraints => StaffConstraint.new
   end
 
+
+
+  # TopicList.on_preload do |topics, topic_list| 
+  #   # binding.pry
+  #   if topic_list.category
+  #     topic_list.category.custom_fields["test"] = "string" 
+  #     topic_list = topic_list
+  #   end
+  # end
+
+  # register_category_custom_field_type("test", :string)
+
   reloadable_patch do
-    add_to_serializer(:basic_category, :banner_ads) do
-      ads_with_id =
-        DiscourseGroupCategoryBannerAds::BannerAd.where(enabled: true).where(
-          "category_ids @> ARRAY[?]",
-          object.id,
-        )
-      ActiveModel::ArraySerializer.new(
-        ads_with_id,
-        each_serializer: DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer,
-        root: false,
-      ).as_json
+    # Category.register_custom_field_type("banner_ads", :boolean)
+    # register_preloaded_category_custom_fields("banner_ads")
+    # Site.preloaded_category_custom_fields << "banner_ads"
+  end
+
+  # add_to_serializer(:basic_category, :test) do
+  #   "foo"
+  # end
+
+  # add_to_serializer(:basic_category, :banner_ads) do
+  #   binding.pry
+  #   "basic_test"
+  # end
+
+  # add_to_serializer(:category_detailed, :banner_ads) do
+  #   binding.pry
+  #   "detailed_test"
+  # end
+
+  # add_to_class(:category, :banner_ads) do
+    # []
+    # puts self.inspect"gooc"
+  # end
+
+  add_to_serializer(:site, :banner_ads) do
+    if !scope&.user 
+      return []
     end
+
+    banner_ads =
+      DiscourseGroupCategoryBannerAds::BannerAd
+        .where(enabled: true)
+        .where("category_ids && (?)", Category.secured(scope).select("ARRAY_AGG(categories.id)"))
+        .where("group_ids && (?)", scope.user.groups.select("ARRAY_AGG(groups.id)"))
+
+    ActiveModel::ArraySerializer.new(
+      banner_ads,
+      each_serializer: DiscourseGroupCategoryBannerAds::BasicBannerAdSerializer,
+      root: false,
+    ).as_json
   end
 end
