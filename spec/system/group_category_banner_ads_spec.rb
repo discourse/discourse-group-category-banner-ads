@@ -53,9 +53,7 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
       end
 
       it "displays banner ad to anon when no group_ids are set" do
-        DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(
-          group_ids: [],
-        )
+        DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(group_ids: [])
 
         visit "/c/#{valid_category.id}"
         expect(page).to have_css(".group-category-banner-ad")
