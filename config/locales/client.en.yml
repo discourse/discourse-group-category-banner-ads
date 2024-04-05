@@ -28,7 +28,7 @@ en:
         description: "The categories where the banner will be displayed"
       group_ids:
         label: "Groups"
-        description: "The groups that will be able to see the banner"
+        description: "The groups that will be able to see the banner. If no groups are selected, the banner will be visible to anonymous users"
       enabled:
         label: "Enabled"
         description: "Enable or disable the banner"

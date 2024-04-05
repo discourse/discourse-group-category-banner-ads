@@ -27,6 +27,8 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
     # we need to clear the cache after create to ensure that we don't render stale data
     # from the cache
     Site.clear_cache
+    Site.clear_anon_cache!
+
     render json:
              DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer.new(
                banner_ad,
@@ -45,6 +47,7 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
     # we need to clear the cache after update to ensure that we don't render stale data
     # from the cache
     Site.clear_cache
+    Site.clear_anon_cache!
 
     render json:
              DiscourseGroupCategoryBannerAds::DetailedBannerAdSerializer.new(
@@ -57,6 +60,11 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
     params.require(:id)
     banner_ad = DiscourseGroupCategoryBannerAds::BannerAd.find(params[:id])
     banner_ad.destroy!
+    # we need to clear the cache after destroy to ensure that we don't render stale data
+    # from the cache
+    Site.clear_cache
+    Site.clear_anon_cache!
+
     render json: success_json
   end
 
