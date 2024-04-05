@@ -45,13 +45,17 @@ after_initialize do
   end
 
   add_to_serializer(:site, :banner_ads) do
-    return [] if !scope&.user
-
     banner_ads =
       DiscourseGroupCategoryBannerAds::BannerAd
         .where(enabled: true)
         .where("category_ids && (?)", Category.secured(scope).select("ARRAY_AGG(categories.id)"))
-        .where("group_ids && (?)", scope.user.groups.select("ARRAY_AGG(groups.id)"))
+
+    if scope.user.present?
+      banner_ads = banner_ads.where("group_ids && ARRAY[?, ?]", scope.user.groups.pluck(:id), Group::AUTO_GROUPS[:everyone])
+    else
+      # Only show ads with no groups specified to users who are not logged in
+      banner_ads = banner_ads.where(group_ids: [])
+    end
 
     ActiveModel::ArraySerializer.new(
       banner_ads,
