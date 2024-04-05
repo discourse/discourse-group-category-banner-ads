@@ -60,6 +60,11 @@ RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, 
         expect(page.find(".group-category-banner-ad-text")).to have_text(text)
       end
 
+      it "does not display banner ad to anon when no group membership" do
+        visit "/c/#{valid_category.id}"
+        expect(page).not_to have_css(".group-category-banner-ad")
+      end
+
       it "displays display banner ad to user without group membership when 'everyone' group included" do
         DiscourseGroupCategoryBannerAds::BannerAd.find_by(title: title).update!(
           group_ids: [Group::AUTO_GROUPS[:trust_level_1], Group::AUTO_GROUPS[:everyone]],
