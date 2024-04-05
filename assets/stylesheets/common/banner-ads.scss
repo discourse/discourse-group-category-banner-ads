@@ -31,7 +31,9 @@
     }
 
     .banner-ad-value {
-      .category-selector {
+      .category-selector,
+      .group-chooser,
+      .banner-ad-description {
         width: calc(100% - 1em);
         margin-right: 0.3em;
       }
