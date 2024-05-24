@@ -19,12 +19,10 @@ end
 require_relative "lib/discourse_group_category_banner_ads/engine"
 
 after_initialize do
-  %w[
-    ../app/controllers/discourse_group_category_banner_ads/admin/admin_group_category_banner_ads_controller.rb
-    ../app/serializers/discourse_group_category_banner_ads/basic_banner_ad_serializer.rb
-    ../app/serializers/discourse_group_category_banner_ads/detailed_banner_ad_serializer.rb
-    ../app/models/discourse_group_category_banner_ads/banner_ad.rb
-  ].each { |path| load File.expand_path(path, __FILE__) }
+  require_relative "app/controllers/discourse_group_category_banner_ads/admin/admin_group_category_banner_ads_controller"
+  require_relative "app/serializers/discourse_group_category_banner_ads/basic_banner_ad_serializer"
+  require_relative "app/serializers/discourse_group_category_banner_ads/detailed_banner_ad_serializer"
+  require_relative "app/models/discourse_group_category_banner_ads/banner_ad"
 
   add_admin_route "discourse_group_category_banner_ads.admin.title", "group_category_banner_ads"
 

@@ -7,11 +7,11 @@ RSpec.describe "Admin - Discourse Group Category Banner Ads", type: :system, js:
   let(:edited_title) { "New banner title - Edited" }
   let(:text) { "New banner text" }
   let(:cta_url) { "https://www.google.com" }
-  fab!(:category) { Fabricate(:category) }
+  fab!(:category)
   fab!(:category2) { Fabricate(:category) }
   let(:category_id_1) { category.id }
   let(:category_id_2) { category2.id }
-  fab!(:group) { Fabricate(:group) }
+  fab!(:group)
   fab!(:group2) { Fabricate(:group) }
   let(:group_id_1) { group.id }
   let(:group_id_2) { group2.id }

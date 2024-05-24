@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsController < Admin::AdminController
+  requires_plugin DiscourseGroupCategoryBannerAds::PLUGIN_NAME
+
   def index
     render json: {
              banner_ads:
