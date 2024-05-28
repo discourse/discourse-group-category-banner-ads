@@ -43,8 +43,8 @@ class DiscourseGroupCategoryBannerAds::Admin::AdminGroupCategoryBannerAdsControl
     banner_ad = DiscourseGroupCategoryBannerAds::BannerAd.find(params[:id])
     # Ensure that we can clear the group_ids and category_ids
     updated_params = banner_ad_params
-    updated_params.merge!(group_ids: []) unless params[:group_ids].present?
-    updated_params.merge!(category_ids: []) unless params[:category_ids].present?
+    updated_params.merge!(group_ids: []) if params[:group_ids].blank?
+    updated_params.merge!(category_ids: []) if params[:category_ids].blank?
     banner_ad.update!(updated_params)
     # we need to clear the cache after update to ensure that we don't render stale data
     # from the cache
