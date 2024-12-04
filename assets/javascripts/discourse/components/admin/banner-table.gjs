@@ -54,7 +54,7 @@ const BannerTable = <template>
                 {{#if bannerAd.enabled}}
                   {{icon "check"}}
                 {{else}}
-                  {{icon "times"}}
+                  {{icon "xmark"}}
                 {{/if}}
               </span>
             </td>
