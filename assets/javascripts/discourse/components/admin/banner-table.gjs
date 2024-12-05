@@ -62,12 +62,12 @@ const BannerTable = <template>
               <div class="banner-ads-table-actions">
                 <DButton
                   @action={{fn @setEditing bannerAd}}
-                  @icon="pencil-alt"
+                  @icon="pencil"
                   class="edit-banner"
                 />
                 <DButton
                   @action={{fn @deleteBannerAd bannerAd}}
-                  @icon="trash-alt"
+                  @icon="trash-can"
                   class="delete-banner"
                 />
               </div>
