@@ -1,7 +1,7 @@
 import { fn } from "@ember/helper";
 import DButton from "discourse/components/d-button";
-import icon from "discourse-common/helpers/d-icon";
-import i18n from "discourse-common/helpers/i18n";
+import icon from "discourse/helpers/d-icon";
+import { i18n } from "discourse-i18n";
 
 const BannerTable = <template>
   <div class="index-banner-ads-container">

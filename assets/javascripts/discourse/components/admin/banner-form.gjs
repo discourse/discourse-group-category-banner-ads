@@ -1,7 +1,7 @@
 import { fn, hash } from "@ember/helper";
 import { on } from "@ember/modifier";
 import DButton from "discourse/components/d-button";
-import i18n from "discourse-common/helpers/i18n";
+import { i18n } from "discourse-i18n";
 import GroupChooser from "select-kit/components/group-chooser";
 import or from "truth-helpers/helpers/or";
 import BannerAdCategorySelector from "../banner-ad-category-selector";
