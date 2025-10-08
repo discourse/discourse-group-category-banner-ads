@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 RSpec.describe "Admin - Discourse Group Category Banner Ads", type: :system, js: true do
-  fab!(:current_user) { Fabricate(:admin) }
+  fab!(:current_user, :admin)
   let(:admin_banner_ad_page) { PageObjects::Pages::AdminGroupCategoryBannerAds.new }
   let(:title) { "New banner title" }
   let(:edited_title) { "New banner title - Edited" }
   let(:text) { "New banner text" }
   let(:cta_url) { "https://www.google.com" }
   fab!(:category)
-  fab!(:category2) { Fabricate(:category) }
+  fab!(:category2, :category)
   let(:category_id_1) { category.id }
   let(:category_id_2) { category2.id }
   fab!(:group)
-  fab!(:group2) { Fabricate(:group) }
+  fab!(:group2, :group)
   let(:group_id_1) { group.id }
   let(:group_id_2) { group2.id }
 
