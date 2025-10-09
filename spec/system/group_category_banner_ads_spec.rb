@@ -2,14 +2,14 @@
 
 RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, js: true do
   fab!(:user_in_valid_group) { Fabricate(:user, group_ids: [Group::AUTO_GROUPS[:trust_level_1]]) }
-  fab!(:user_not_in_valid_group) { Fabricate(:user) }
+  fab!(:user_not_in_valid_group, :user)
   let(:title) { "New banner title" }
   let(:text) { "New banner text" }
   let(:updated_text) { "New banner text - Updated" }
   let(:cta_url) { "https://www.google.com/" }
   let(:cta_text) { "Click Me" }
-  fab!(:valid_category) { Fabricate(:category) }
-  fab!(:invalid_category) { Fabricate(:category) }
+  fab!(:valid_category, :category)
+  fab!(:invalid_category, :category)
 
   before { SiteSetting.discourse_group_category_banner_ads_enabled = true }
 

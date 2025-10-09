@@ -7,14 +7,12 @@ const bannerCategoriesIncludesCategory = (categoryId, bannerCategoryIds) => {
 };
 
 export default class BannerAds extends Component {
-  @service currentUser;
+  @service site;
 
   <template>
-    {{#each @outletArgs.category.site.banner_ads as |banner|}}
+    {{#each this.site.banner_ads as |banner|}}
       {{#if
-        (bannerCategoriesIncludesCategory
-          @outletArgs.category.id banner.category_ids
-        )
+        (bannerCategoriesIncludesCategory @category.id banner.category_ids)
       }}
         <BannerAd @banner={{banner}} />
       {{/if}}
