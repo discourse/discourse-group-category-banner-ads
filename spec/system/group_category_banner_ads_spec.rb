@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Category - Discourse Group Category Banner Ads", type: :system, js: true do
+RSpec.describe "Category - Discourse Group Category Banner Ads" do
   fab!(:user_in_valid_group) { Fabricate(:user, group_ids: [Group::AUTO_GROUPS[:trust_level_1]]) }
   fab!(:user_not_in_valid_group, :user)
   let(:title) { "New banner title" }
