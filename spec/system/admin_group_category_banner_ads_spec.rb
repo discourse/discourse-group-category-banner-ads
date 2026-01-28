@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "Admin - Discourse Group Category Banner Ads", type: :system, js: true do
+RSpec.describe "Admin - Discourse Group Category Banner Ads" do
   fab!(:current_user, :admin)
   let(:admin_banner_ad_page) { PageObjects::Pages::AdminGroupCategoryBannerAds.new }
   let(:title) { "New banner title" }
