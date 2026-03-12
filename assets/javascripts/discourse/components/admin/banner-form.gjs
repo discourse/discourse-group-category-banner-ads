@@ -1,9 +1,9 @@
 import { fn, hash } from "@ember/helper";
 import { on } from "@ember/modifier";
-import { or } from "truth-helpers";
 import DButton from "discourse/components/d-button";
+import GroupChooser from "discourse/select-kit/components/group-chooser";
+import { or } from "discourse/truth-helpers";
 import { i18n } from "discourse-i18n";
-import GroupChooser from "select-kit/components/group-chooser";
 import BannerAdCategorySelector from "../banner-ad-category-selector";
 
 const BannerForm = <template>
