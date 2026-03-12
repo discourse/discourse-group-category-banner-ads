@@ -1,5 +1,5 @@
-import BannerForm from "../components/banner-form";
-import BannerTable from "../components/banner-table";
+import BannerForm from "../../components/banner-form";
+import BannerTable from "../../components/banner-table";
 
 export default <template>
   <BannerForm
