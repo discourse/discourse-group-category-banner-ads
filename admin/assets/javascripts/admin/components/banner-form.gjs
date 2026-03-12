@@ -4,7 +4,7 @@ import DButton from "discourse/components/d-button";
 import GroupChooser from "discourse/select-kit/components/group-chooser";
 import { or } from "discourse/truth-helpers";
 import { i18n } from "discourse-i18n";
-import BannerAdCategorySelector from "../banner-ad-category-selector";
+import BannerAdCategorySelector from "./banner-ad-category-selector";
 
 const BannerForm = <template>
   <div class="new-banner-ad">
