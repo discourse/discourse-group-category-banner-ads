@@ -1,8 +1,8 @@
 import { tracked } from "@glimmer/tracking";
 import Controller from "@ember/controller";
 import EmberObject, { action } from "@ember/object";
+import { trackedArray, trackedObject } from "@ember/reactive/collections";
 import { service } from "@ember/service";
-import { TrackedArray, TrackedObject } from "@ember-compat/tracked-built-ins";
 import { ajax } from "discourse/lib/ajax";
 import { extractError } from "discourse/lib/ajax-error";
 
@@ -13,12 +13,12 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   @tracked creating = false;
   @tracked selectedCategories = this.bannerAd.categories || [];
   @tracked selectedGroups = this.bannerAd.group_ids || [];
-  @tracked bannerAd = new TrackedObject({});
+  @tracked bannerAd = trackedObject({});
 
   @action
   setEditing(bannerAd) {
     this.editing = true;
-    this.bannerAd = new TrackedObject(bannerAd);
+    this.bannerAd = trackedObject(bannerAd);
 
     this.resetGroupsAndCategories();
   }
@@ -26,7 +26,7 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   @action
   setCreating() {
     this.creating = true;
-    this.bannerAd = new TrackedObject({});
+    this.bannerAd = trackedObject({});
 
     this.resetGroupsAndCategories();
   }
@@ -52,9 +52,7 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
   setCategoryIds(categoryArray) {
     this.selectedCategories = categoryArray;
 
-    this.bannerAd.category_ids = new TrackedArray(
-      categoryArray.map((c) => c.id)
-    );
+    this.bannerAd.category_ids = trackedArray(categoryArray.map((c) => c.id));
   }
 
   @action

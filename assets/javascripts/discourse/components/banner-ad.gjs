@@ -1,5 +1,5 @@
 import { dasherize } from "@ember/string";
-import { htmlSafe } from "@ember/template";
+import { trustHTML } from "@ember/template";
 import concatClass from "discourse/helpers/concat-class";
 
 const BannerAd = <template>
@@ -7,7 +7,7 @@ const BannerAd = <template>
     class={{concatClass (dasherize @banner.title) "group-category-banner-ad"}}
   >
     <span class="group-category-banner-ad-text">
-      {{htmlSafe @banner.banner_text}}
+      {{trustHTML @banner.banner_text}}
     </span>
     <a
       href={{@banner.cta_url}}
