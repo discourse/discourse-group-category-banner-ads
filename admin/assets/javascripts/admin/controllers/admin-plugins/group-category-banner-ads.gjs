@@ -109,7 +109,10 @@ export default class AdminPluginsGroupCategoryBannerAds extends Controller {
         duration: 3000,
         data: { message: "Banner ad created successfully!" },
       });
-      this.model.banner_ads.unshiftObject(EmberObject.create(response));
+      this.set("model.banner_ads", [
+        EmberObject.create(response),
+        ...this.model.banner_ads,
+      ]);
       this.reset();
     } catch (error) {
       this.toasts.error({
